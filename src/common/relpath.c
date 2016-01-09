@@ -47,11 +47,11 @@ const char *const forkNames[] = {
 ForkNumber
 forkname_to_number(const char *forkName)
 {
-	ForkNumber	forkNum;
+	int	forkNum;
 
-	for (forkNum = MAIN_FORKNUM; forkNum <= MAX_FORKNUM; forkNum = (ForkNumber)((int)forkNum + 1))
+	for (forkNum = MAIN_FORKNUM; forkNum <= MAX_FORKNUM; forkNum++)
 		if (strcmp(forkNames[forkNum], forkName) == 0)
-			return forkNum;
+			return (ForkNumber) forkNum;
 
 #ifndef FRONTEND
 	ereport(ERROR,
@@ -78,16 +78,16 @@ forkname_to_number(const char *forkName)
 int
 forkname_chars(const char *str, ForkNumber *fork)
 {
-	ForkNumber	forkNum;
+	int	forkNum;
 
-	for (forkNum = FSM_FORKNUM; forkNum <= MAX_FORKNUM; (ForkNumber)((int)forkNum + 1))
+	for (forkNum = FSM_FORKNUM; forkNum <= MAX_FORKNUM; forkNum++)
 	{
-		int			len = strlen(forkNames[forkNum]);
+		int	len = strlen(forkNames[forkNum]);
 
 		if (strncmp(forkNames[forkNum], str, len) == 0)
 		{
 			if (fork)
-				*fork = forkNum;
+				*fork = (ForkNumber)forkNum;
 			return len;
 		}
 	}
